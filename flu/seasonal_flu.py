@@ -2,7 +2,7 @@ from __future__ import division, print_function
 from collections import defaultdict
 import sys
 sys.path.append('')  # need to import from base
-from base.process import process
+from base.process import process, get_parser
 import numpy as np
 from datetime import datetime
 from base.io_util import myopen
@@ -255,21 +255,14 @@ def plot_frequencies(flu, gene, mutation=None, plot_regions=None, all_muts=False
 
 
 if __name__=="__main__":
-    import argparse
+    parser = get_parser()
+    parser.add_argument('-l', '--lineage', type = str, default = 'h3n2', help='flu lineage to process')
+    parser.add_argument('-y', '--resolution', type = str, default = '3y', help='outfile suffix')
+    params = parser.parse_args()
+
     import matplotlib.pyplot as plt
     plt.ion()
 
-    parser = argparse.ArgumentParser(description='Process virus sequences, build tree, and prepare of web visualization')
-    parser.add_argument('-v', '--viruses_per_month', type = int, default = 10, help='number of viruses sampled per month')
-    parser.add_argument('-y', '--resolution', type = str, default = '3y', help='outfile suffix')
-    parser.add_argument('-r', '--raxml_time_limit', type = float, default = 1.0, help='number of hours raxml is run')
-    parser.add_argument('-d', '--download', action='store_true', default = False, help='load from database')
-    parser.add_argument('-t', '--time_interval', nargs=2, default=('2012-01-01', '2016-01-01'),
-                            help='time interval to sample sequences from: provide dates as YYYY-MM-DD')
-    parser.add_argument('-l', '--lineage', type = str, default = 'h3n2', help='flu lineage to process')
-    parser.add_argument('--load', action='store_true', help = 'recover from file')
-    parser.add_argument('--no_tree', default=False, action='store_true', help = "don't build a tree")
-    params = parser.parse_args()
     input_data_path = '../fauna/data/'+params.lineage
     store_data_path = 'store/'+params.lineage + '_' + params.resolution +'_'
     build_data_path = 'build/'+params.lineage + '_' + params.resolution +'_'

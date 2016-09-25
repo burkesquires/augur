@@ -11,9 +11,12 @@ from datetime import datetime
 def get_parser():
     import argparse
     parser = argparse.ArgumentParser(description='Process virus sequences, build tree, and prepare of web visualization')
-    parser.add_argument('-v', '--viruses_per_month', type = int, default = 100, help='number of viruses sampled per month')
+    parser.add_argument('-v', '--viruses_per_month', type = int, default = 10, help='number of viruses sampled per month')
     parser.add_argument('-r', '--raxml_time_limit', type = float, default = 1.0, help='number of hours raxml is run')
     parser.add_argument('--load', action='store_true', help = 'recover from file')
+    parser.add_argument('-t', '--time_interval', nargs=2, default=('2012-01-01', '2016-01-01'),
+                            help='time interval to sample sequences from: provide dates as YYYY-MM-DD')
+    parser.add_argument('--no_tree', default=False, action='store_true', help = "don't build a tree")
     return parser
 
 class process(object):
@@ -388,7 +391,7 @@ class process(object):
 
 if __name__=="__main__":
     parser = get_parser()
-    args = parser.parse_args()    
+    args = parser.parse_args()
     lineage = 'h3n2'
     input_data_path = '../nextstrain-db/data/'+lineage
     store_data_path = 'store/'+lineage + '_'

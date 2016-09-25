@@ -16,7 +16,7 @@ attribute_nesting = {'geographic location':['region', 'country', 'city']}
 
 if __name__=="__main__":
     parser = get_parser()
-    args = parser.parse_args()
+    params = parser.parse_args()
 
     lineage = 'zika'
     input_data_path = '../fauna/data/'+lineage
