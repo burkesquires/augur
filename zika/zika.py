@@ -5,22 +5,18 @@ sys.path.append('')  # need to import from base
 from base.io_util import make_dir, remove_dir, tree_to_json, write_json, myopen
 from base.sequences import sequence_set, num_date
 from base.tree import tree
-from base.process import process
+from base.process import process, get_parser
 from base.frequencies import alignment_frequencies, tree_frequencies
 from Bio import SeqIO
 from Bio.SeqFeature import FeatureLocation
 import numpy as np
 from datetime import datetime
 
-attribute_nesting = {'geographic location':['region', 'country', 'city'],}
+attribute_nesting = {'geographic location':['region', 'country', 'city']}
 
 if __name__=="__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description='Process virus sequences, build tree, and prepare of web visualization')
-    parser.add_argument('-v', '--viruses_per_month', type = int, default = 100, help='number of viruses sampled per month')
-    parser.add_argument('-r', '--raxml_time_limit', type = float, default = 1.0, help='number of hours raxml is run')
-    parser.add_argument('--load', action='store_true', help = 'recover from file')
+    parser = get_parser()
+    args = parser.parse_args()
 
     lineage = 'zika'
     input_data_path = '../fauna/data/'+lineage

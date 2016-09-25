@@ -8,6 +8,14 @@ from base.frequencies import alignment_frequencies, tree_frequencies, make_pivot
 import numpy as np
 from datetime import datetime
 
+def get_parser():
+    import argparse
+    parser = argparse.ArgumentParser(description='Process virus sequences, build tree, and prepare of web visualization')
+    parser.add_argument('-v', '--viruses_per_month', type = int, default = 100, help='number of viruses sampled per month')
+    parser.add_argument('-r', '--raxml_time_limit', type = float, default = 1.0, help='number of hours raxml is run')
+    parser.add_argument('--load', action='store_true', help = 'recover from file')
+    return parser
+
 class process(object):
     """process influenza virus sequences in mutliple steps to allow visualization in browser
         * filtering and parsing of sequences
@@ -379,6 +387,8 @@ class process(object):
 
 
 if __name__=="__main__":
+    parser = get_parser()
+    args = parser.parse_args()    
     lineage = 'h3n2'
     input_data_path = '../nextstrain-db/data/'+lineage
     store_data_path = 'store/'+lineage + '_'
